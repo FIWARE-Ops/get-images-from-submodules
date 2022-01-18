@@ -1,0 +1,10 @@
+name: 'Get docker images for submodules'
+description: 'Retrieve all images, defined by the submodlues config.json.'
+author: stefan.wiedemann@fiware.org
+branding:
+  icon: 'tag'
+  color: 'green'
+
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
