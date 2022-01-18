@@ -5,6 +5,13 @@ branding:
   icon: 'tag'
   color: 'green'
 
+inputs:
+  includeVersion:
+    description: 'Should the resulting image include its released versions.'
+    required: false
+    default: "true"
 runs:
   using: 'docker'
   image: 'Dockerfile'
+  env:
+    INCLUDE_VERSION: ${{ inputs.includeVersion }}

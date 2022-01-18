@@ -6,6 +6,8 @@ from pathlib import Path
 import os, shutil
 import json
 
+includeVersion = os.getenv("INCLUDE_VERSION", 'False').lower() in ('true')
+
 baseFolder="/github/workspace"
 configPath = "/.github/fiware/config.json"
 submodulesFolder = "/submodules"
@@ -30,9 +32,13 @@ def get_releases_for_submodule(submodule, repo):
 
             githubRepo = submodule.url.replace('https://github.com/', '').replace('.git', '')
             repository = github.get_repo(githubRepo)
-            for release in repository.get_releases():
-                for container in cl:
-                    containers.append(container + ":"+release.tag_name)
+            if includeVersion:
+                for release in repository.get_releases():
+                    for container in cl:
+                        containers.append(container + ":"+release.tag_name)
+            else:
+                containers.append(container)
+                
     shutil.rmtree(submodulesFolder)
     return containers
 
