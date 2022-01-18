@@ -3,6 +3,7 @@ from git import Repo
 from github import Github
 from pathlib import Path
 
+import docker
 import os, shutil
 import json
 
@@ -35,10 +36,15 @@ def get_releases_for_submodule(submodule, repo):
             if includeVersion:
                 for release in repository.get_releases():
                     for container in cl:
-                        containers.append(container + ":"+release.tag_name)
+                        client = docker.from_env()
+                        try:
+                            client.images.get(container + ":"+release.tag_name)
+                            containers.append(container + ":"+release.tag_name)
+                        except:
+                            print("Image does not exist: " + container + ":" + release.tag_name)
             else:
                 containers.append(container)
-                
+
     shutil.rmtree(submodulesFolder)
     return containers
 
