@@ -1,4 +1,3 @@
-import imp
 from git import Repo
 from github import Github
 from pathlib import Path
