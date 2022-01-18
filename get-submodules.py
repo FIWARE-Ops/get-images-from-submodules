@@ -37,7 +37,7 @@ def get_releases_for_submodule(submodule, repo):
                     for container in cl:
                         client = docker.from_env()
                         try:
-                            client.images.get(container + ":"+release.tag_name)
+                            client.images.pull(container + ":"+release.tag_name)
                             containers.append(container + ":"+release.tag_name)
                         except Exception as e:
                             print(e)
