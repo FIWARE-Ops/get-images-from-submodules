@@ -40,7 +40,8 @@ def get_releases_for_submodule(submodule, repo):
                         try:
                             client.images.get(container + ":"+release.tag_name)
                             containers.append(container + ":"+release.tag_name)
-                        except:
+                        except Exception as e:
+                            print(e)
                             print("Image does not exist: " + container + ":" + release.tag_name)
             else:
                 containers.append(container)
