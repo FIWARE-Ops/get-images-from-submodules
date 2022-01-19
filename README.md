@@ -9,7 +9,7 @@ The action can report the images with their version tag(based on releases in the
 ```yaml
     - name: Get docker images for submodules
       id: get-images
-      uses: wistefan/get-images-from-submodules@master
+      uses: FIWARE-Ops/get-images-from-submodules@master
       with:
         includeVersion: true
 ```
