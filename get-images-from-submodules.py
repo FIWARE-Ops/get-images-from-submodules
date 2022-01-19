@@ -16,9 +16,11 @@ def get_releases_for_submodule(submodule, repo):
 
     Repo.clone_from(submodule.url, submodulesFolder)
     config_file = Path(submodulesFolder + configPath)
+    githubRepo = submodule.url.replace('https://github.com/', '').replace('.git', '')
+
     containers = []
     if config_file.is_file():
-        print("+++++++++++++++++++++++++++++++++++++++++++++++++++Config exists for " + submodule.url)
+        print("Config exists for " + submodule.url)
         cl = []
         versionList = []
         with open(submodulesFolder + configPath) as json_file:
@@ -30,7 +32,6 @@ def get_releases_for_submodule(submodule, repo):
                     cl.append(container)
             github = Github()
 
-            githubRepo = submodule.url.replace('https://github.com/', '').replace('.git', '')
             repository = github.get_repo(githubRepo)
             if includeVersion:
                 for release in repository.get_releases():
@@ -39,11 +40,12 @@ def get_releases_for_submodule(submodule, repo):
                         try:
                             client.images.pull(container + ":"+release.tag_name)
                             containers.append(container + ":"+release.tag_name)
-                        except Exception as e:
-                            print(e)
+                        except:
                             print("Image does not exist: " + container + ":" + release.tag_name)
             else:
                 containers.append(container)
+    else:
+        print("No config file exists: " + githubRepo)
 
     shutil.rmtree(submodulesFolder)
     return containers
