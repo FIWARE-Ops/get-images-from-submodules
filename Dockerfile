@@ -6,7 +6,7 @@ COPY . .
 
 RUN pip install --no-cache-dir -r requirements.txt
 
-CMD ["/usr/src/app/get-submodules.py"]
+CMD ["/usr/src/app/get-images-from-submodules.py"]
 
 WORKDIR /github/workspace
 
