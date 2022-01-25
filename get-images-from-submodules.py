@@ -34,7 +34,8 @@ def get_releases_for_submodule(submodule, repo):
                 if container != '':
                     cl.append(container)
             if not registryList: 
-                containersWithReg.extend(cl)
+                for container in cl:
+                    containersWithReg.append(container)
             else:
                 for registry in registryList:
                     if registry != '':
