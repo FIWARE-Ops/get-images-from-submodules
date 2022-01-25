@@ -1,3 +1,4 @@
+from queue import Empty
 from git import Repo
 from github import Github
 from pathlib import Path
@@ -21,21 +22,31 @@ def get_releases_for_submodule(submodule, repo):
     containers = []
     if config_file.is_file():
         print("Config exists for " + submodule.url)
-        cl = []
         versionList = []
         with open(submodulesFolder + configPath) as json_file:
+            cl = []
+            containersWithReg = []
             data = json.load(json_file)
+            registryList=(data['dockerregistry'])
             containerList=(data['docker'])
             for container in containerList:
                 print(container)
                 if container != '':
                     cl.append(container)
-            github = Github()
+            if not registryList: 
+                containersWithReg.extend(cl)
+            else:
+                for registry in registryList:
+                    if registry != '':
+                        for container in cl:
+                            containersWithReg.append(registry + "/" + container)
+            
 
+            github = Github()
             repository = github.get_repo(githubRepo)
             if includeVersion:
                 for release in repository.get_releases():
-                    for container in cl:
+                    for container in containersWithReg:
                         client = docker.from_env()
                         try:
                             client.images.pull(container + ":"+release.tag_name)
