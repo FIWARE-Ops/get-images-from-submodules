@@ -38,7 +38,7 @@ def get_releases_for_submodule(submodule, repo):
                     containersWithReg.append(container)
             else:
                 for registry in registryList:
-                    if registry != '':
+                    if registry != '' or registry == 'hub.docker.com':
                         for container in cl:
                             containersWithReg.append(registry + "/" + container)
             
