@@ -14,8 +14,12 @@ configPath = "/.github/fiware/config.json"
 submodulesFolder = "/submodules"
 
 def get_releases_for_submodule(submodule, repo):
-
-    Repo.clone_from(submodule.url, submodulesFolder)
+    
+    try: 
+        Repo.clone_from(submodule.url, submodulesFolder)
+    except:
+        print("Was not able to clone" + submodule.url)
+        
     config_file = Path(submodulesFolder + configPath)
     githubRepo = submodule.url.replace('https://github.com/', '').replace('.git', '')
 
