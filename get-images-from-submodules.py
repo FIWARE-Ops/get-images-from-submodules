@@ -19,6 +19,7 @@ def get_releases_for_submodule(submodule, repo):
         Repo.clone_from(submodule.url, submodulesFolder)
     except:
         print("Was not able to clone" + submodule.url)
+        return []
         
     config_file = Path(submodulesFolder + configPath)
     githubRepo = submodule.url.replace('https://github.com/', '').replace('.git', '')
